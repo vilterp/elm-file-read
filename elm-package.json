@@ -1,0 +1,19 @@
+{
+    "version": "1.0.0",
+    "summary": "HTML5 File API: drop file onto HTML element from desktop; read contents into Elm",
+    "repository": "https://github.com/vilterp/elm-file-read.git",
+    "license": "BSD3",
+    "source-directories": [
+        "."
+    ],
+    "dependencies": {
+        "elm-lang/core": "2.0.0 <= v < 3.0.0",
+        "evancz/elm-html": "4.0.0 <= v < 5.0.0"
+    },
+    "exposed-modules": [
+        "Html.Attributes.DragDropFile",
+        "Html.File"
+    ],
+    "native-modules": true,
+    "elm-version": "0.15.0 <= v < 0.16.0"
+}
