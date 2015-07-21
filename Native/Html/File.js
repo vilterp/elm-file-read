@@ -2,8 +2,8 @@ Elm.Native = Elm.Native || {};
 Elm.Native.Html = Elm.Native.Html || {};
 Elm.Native.Html.File = Elm.Native.Html.File || {};
 
-Elm.Native.Html = {};
-Elm.Native.Html.File = {};
+// Elm.Native.Html = {};
+// Elm.Native.Html.File = {};
 Elm.Native.Html.File.make = function(localRuntime) {
 	localRuntime.Native = localRuntime.Native || {};
 	localRuntime.Native.Html = localRuntime.Native.Html || {};
@@ -17,8 +17,14 @@ Elm.Native.Html.File.make = function(localRuntime) {
 	var Utils = Elm.Native.Utils.make (localRuntime);
 	var List = Elm.Native.List.make (localRuntime);
 
-	function mimeType(file) {
+	function mimeType(file)
+	{
 		return file.type;
+	}
+
+	function size(file)
+	{
+		return file.size;
 	}
 
 	function decodeFile(value)
@@ -32,14 +38,16 @@ Elm.Native.Html.File.make = function(localRuntime) {
 
 	function decodeDomList(decoder)
 	{
-		if(value.length && value.item) {
-			var files = [];
-			for(var i=0; i < value.length; i++) {
-				files.push(decoder(value[i]));
+		return function(value) {
+			if(value.length && value.item) {
+				var files = [];
+				for(var i=0; i < value.length; i++) {
+					files.push(decoder(value[i]));
+				}
+				return Utils.fromArray(files);
+			} else {
+				throw new Error("expecting a dom list");
 			}
-			return Utils.fromArray(files);
-		} else {
-			throw new Error("expecting a dom list");
 		}
 	}
 
@@ -59,6 +67,7 @@ Elm.Native.Html.File.make = function(localRuntime) {
 
 	return localRuntime.Native.Html.File.values = {
 		mimeType: mimeType,
+		size: size,
 		decodeFile: decodeFile,
 		decodeDomList: decodeDomList,
 		readAsText: readAsText

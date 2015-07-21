@@ -1,4 +1,6 @@
-module Html.Attributes.DragDropFile where
+module Html.Attributes.DragDropFile
+    ( onDragEnter, onDragLeave, onDrop
+    ) where
 
 {-|
 @docs onDragEnter, onDragLeave, onDrop -}
@@ -7,35 +9,33 @@ import Signal
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode exposing (..)
 
 import Html.File exposing (..)
 
 
-{-|-}
-onDragEnter : Signal.Address (List File) -> Attribute
-onDragEnter addr =
+handleEvent : String -> Signal.Address a -> (List File -> a) -> Attribute
+handleEvent name addr fun =
   onWithOptions
-    "dragenter"
+    name
     { defaultOptions | preventDefault <- True }
-    (domList file)
-    (Signal.message addr)
-
-
-{-|-}
-onDragLeave : Signal.Address (List File) -> Attribute
-onDragLeave addr =
-  onWithOptions
-    "dragleave"
-    { defaultOptions | preventDefault <- True }
-    (domList file)
-    (Signal.message addr)
+    (at ["dataTransfer", "files"] <| domList file)
+    (\files -> Signal.message addr (fun files))
 
 
 {-|-}
-onDrop : Signal.Address (List File) -> Attribute
-onDrop addr =
-  onWithOptions
-    "drop"
-    { defaultOptions | preventDefault <- True }
-    (domList file)
-    (Signal.message addr)
+onDragEnter : Signal.Address a -> (List File -> a) -> Attribute
+onDragEnter =
+  handleEvent "mouseover"
+
+
+{-|-}
+onDragLeave : Signal.Address a -> (List File -> a) -> Attribute
+onDragLeave =
+  handleEvent "dragleave"
+
+
+{-|-}
+onDrop : Signal.Address a -> (List File -> a) -> Attribute
+onDrop =
+  handleEvent "drop"

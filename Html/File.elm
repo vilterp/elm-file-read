@@ -1,7 +1,7 @@
 module Html.File where
 
 {-|
-@docs MimeType, File, mimeType, file, domList, readAsText -}
+@docs MimeType, File, mimeType, size, file, domList, readAsText -}
 
 import Native.Html.File
 import Json.Decode as Decode
@@ -21,22 +21,28 @@ type File
 {-|-}
 mimeType : File -> MimeType
 mimeType =
-  Native.File.mimeType
+  Native.Html.File.mimeType
+
+
+{-|-}
+size : File -> Int
+size =
+  Native.Html.File.size
 
 
 {-|-}
 file : Decode.Decoder File
 file =
-  Native.File.decodeFile
+  Native.Html.File.decodeFile
 
 
 {-|-}
 domList : Decode.Decoder a -> Decode.Decoder (List a)
 domList =
-  Native.File.decodeDomList
+  Native.Html.File.decodeDomList
 
 
 {-|-}
 readAsText : File -> Task.Task String String
 readAsText =
-  Native.File.readAsText
+  Native.Html.File.readAsText

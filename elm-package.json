@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "summary": "HTML5 File API: drop file onto HTML element from desktop; read contents into Elm",
+    "summary": "HTML5 File API: drop file onto HTML element from desktop; read contents in Elm",
     "repository": "https://github.com/vilterp/elm-file-read.git",
     "license": "BSD3",
     "source-directories": [
