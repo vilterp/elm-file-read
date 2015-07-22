@@ -1,7 +1,7 @@
 module Html.File where
 
 {-|
-@docs MimeType, File, mimeType, size, file, domList, readAsText -}
+@docs MimeType, File, FileName, mimeType, size, file, domList, readAsText, download -}
 
 import Native.Html.File
 import Json.Decode as Decode
@@ -10,6 +10,11 @@ import Task
 
 {-|-}
 type alias MimeType =
+  String
+
+
+{-|-}
+type alias FileName =
   String
 
 
@@ -46,3 +51,9 @@ domList =
 readAsText : File -> Task.Task String String
 readAsText =
   Native.Html.File.readAsText
+
+
+{-|-}
+download : String -> MimeType -> FileName -> Task.Task String ()
+download =
+  Native.Html.File.download
