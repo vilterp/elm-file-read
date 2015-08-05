@@ -1,7 +1,8 @@
 module Html.File where
 
 {-|
-@docs MimeType, File, FileName, mimeType, size, file, domList, readAsText, download -}
+@docs MimeType, File, FileName, mimeType, size, file, domList, readAsText, download
+-}
 
 import Native.Html.File
 import Json.Decode as Decode
@@ -53,7 +54,15 @@ readAsText =
   Native.Html.File.readAsText
 
 
-{-|-}
-download : String -> MimeType -> FileName -> Task.Task String ()
+{-| Given contents, mime type, and name, force browser
+to save the given contents.
+
+Current state:
+
+- Chrome: works
+- FF: works
+- Safari: opens in new tab
+  -}
+download : String -> MimeType -> FileName -> Task.Task x ()
 download =
   Native.Html.File.download

@@ -44,7 +44,7 @@ Elm.Native.Html.File.make = function(localRuntime) {
 				for(var i=0; i < value.length; i++) {
 					files.push(decoder(value[i]));
 				}
-				return Utils.fromArray(files);
+				return List.fromArray(files);
 			} else {
 				throw new Error("expecting a dom list");
 			}
@@ -65,14 +65,12 @@ Elm.Native.Html.File.make = function(localRuntime) {
 		});
 	}
 
-	/* Current state:
-	- Chrome: works
-	- FF: works
-	- Safari: opens in new tab
-	*/
 	function download(contents, mime, name) {
-		var blob = new Blob([contents], {type: mime});
-		saveAs(blob, name);
+		return Task.asyncFunction(function(callback) {
+			var blob = new Blob([contents], {type: mime});
+			saveAs(blob, name);
+			return Task.succeed(Utils.Tuple0);
+		});
 	}
 
 	return localRuntime.Native.Html.File.values = {
