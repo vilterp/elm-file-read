@@ -4,9 +4,10 @@ module Html.File where
 @docs MimeType, File, FileName, mimeType, size, file, domList, readAsText, download
 -}
 
-import Native.Html.File
 import Json.Decode as Decode
-import Task
+import Task exposing (Task)
+
+import Native.Html.File
 
 
 {-|-}
@@ -49,7 +50,7 @@ domList =
 
 
 {-|-}
-readAsText : File -> Task.Task String String
+readAsText : File -> Task String String
 readAsText =
   Native.Html.File.readAsText
 
@@ -62,7 +63,13 @@ Current state:
 - Chrome: works
 - FF: works
 - Safari: opens in new tab
-  -}
-download : String -> MimeType -> FileName -> Task.Task x ()
+-}
+download : String -> MimeType -> FileName -> Task x ()
 download =
   Native.Html.File.download
+
+
+{-| Make a file picker dialog pop up; return the files the user picks. -}
+pickFiles : Task x (List File)
+pickFiles =
+  Native.Html.File.pickFiles

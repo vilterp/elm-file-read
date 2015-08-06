@@ -65,7 +65,8 @@ Elm.Native.Html.File.make = function(localRuntime) {
 		});
 	}
 
-	function download(contents, mime, name) {
+	function download(contents, mime, name)
+	{
 		return Task.asyncFunction(function(callback) {
 			var blob = new Blob([contents], {type: mime});
 			saveAs(blob, name);
@@ -73,13 +74,27 @@ Elm.Native.Html.File.make = function(localRuntime) {
 		});
 	}
 
+	// TDOO: what happens when the user presses cancel?
+	// I guess no change event is fired and the task never completes?
+	pickFiles =
+		Task.asyncFunction(function(callback) {
+			var input = document.createElement('input');
+			input.type = 'file';
+			input.addEventListener('change', function(evt) {
+				var decoded = decodeDomList(decodeFile)(evt.target.files);
+				callback(Task.succeed(decoded));
+			});
+			input.click(); // TODO: test in FF
+		});
+
 	return localRuntime.Native.Html.File.values = {
 		mimeType: mimeType,
 		size: size,
 		decodeFile: decodeFile,
 		decodeDomList: decodeDomList,
 		readAsText: readAsText,
-		download: F3(download)
+		download: F3(download),
+		pickFiles: pickFiles
 	};
 };
 
