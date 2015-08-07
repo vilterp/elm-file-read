@@ -26,6 +26,11 @@ type File
 
 
 {-|-}
+type alias IoError =
+  String
+
+
+{-|-}
 mimeType : File -> MimeType
 mimeType =
   Native.Html.File.mimeType
@@ -50,7 +55,7 @@ domList =
 
 
 {-|-}
-readAsText : File -> Task String String
+readAsText : File -> Task IoError String
 readAsText =
   Native.Html.File.readAsText
 
